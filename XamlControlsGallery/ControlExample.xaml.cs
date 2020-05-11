@@ -1,4 +1,4 @@
-﻿//*********************************************************
+//*********************************************************
 //
 // Copyright (c) Microsoft. All rights reserved.
 // THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
@@ -7,7 +7,7 @@
 // PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 //
 //*********************************************************
-using AppUIBasics.Common;
+using AppUIBasics.Helper;
 using ColorCode;
 using ColorCode.Common;
 using System;
@@ -273,8 +273,7 @@ namespace AppUIBasics
                 throw new KeyNotFoundException(match.Groups[1].Value);
             });
 
-            var sampleCodeRTB = new RichTextBlock();
-            sampleCodeRTB.FontFamily = new FontFamily("Consolas");
+            var sampleCodeRTB = new RichTextBlock {FontFamily = new FontFamily("Consolas")};
 
             var formatter = GenerateRichTextFormatter();
             formatter.FormatRichTextBlock(sampleString, highlightLanguage, sampleCodeRTB);

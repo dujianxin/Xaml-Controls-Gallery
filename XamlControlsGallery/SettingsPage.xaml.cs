@@ -1,4 +1,4 @@
-﻿//*********************************************************
+//*********************************************************
 //
 // Copyright (c) Microsoft. All rights reserved.
 // THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
@@ -8,8 +8,11 @@
 //
 //*********************************************************
 using AppUIBasics.Common;
+using AppUIBasics.Helper;
+using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Linq;
+using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -43,6 +46,8 @@ namespace AppUIBasics
                 soundToggle.IsOn = true;
             if (ElementSoundPlayer.SpatialAudioMode == ElementSpatialAudioMode.On)
                 spatialSoundBox.IsChecked = true;
+            if (NavigationRootPage.Current.NavigationView.PaneDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top)
+                navigationToggle.IsOn = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -50,11 +55,6 @@ namespace AppUIBasics
             base.OnNavigatedTo(e);
 
             NavigationRootPage.Current.NavigationView.Header = "Settings";
-        }
-
-        private async void OnFeedbackButtonClick(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("feedback-hub:"));
         }
 
         private void OnSettingsPageLoaded(object sender, RoutedEventArgs e)
@@ -83,7 +83,7 @@ namespace AppUIBasics
         }
         private void spatialSoundBox_Checked(object sender, RoutedEventArgs e)
         {
-            if(soundToggle.IsOn == true)
+            if (soundToggle.IsOn == true)
             {
                 ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
             }
@@ -102,8 +102,13 @@ namespace AppUIBasics
                 spatialSoundBox.IsChecked = false;
 
                 ElementSoundPlayer.State = ElementSoundPlayerState.Off;
-                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;                
+                ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.Off;
             }
+        }
+
+        private void navigationToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            NavigationOrientationHelper.IsLeftMode = !navigationToggle.IsOn;
         }
 
         private void spatialSoundBox_Unchecked(object sender, RoutedEventArgs e)
